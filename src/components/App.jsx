@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer'
@@ -8,9 +8,13 @@ import NewPlaceForm from './NewPlaceForm'
 import PopupWithForm from './PopupWithForm'
 import ImagePopup from './ImagePopup'
 import Loader from './Loader'
-import { api } from '../utils/Api'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
-import { CardContext } from '../contexts/CardContext'
+import ProtectedRoute from './ProtectedRoute'
+import Login from './Login'
+import Register from './Register'
+import {api} from '../utils/Api'
+import {CurrentUserContext} from '../contexts/CurrentUserContext'
+import {CardContext} from '../contexts/CardContext'
+import {Route, Routes} from 'react-router-dom'
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
@@ -112,7 +116,7 @@ function App() {
     setCardId(cardId)
   }
 
-  const handleUpdateUser = ({ name, about }) => {
+  const handleUpdateUser = ({name, about}) => {
     api
       .saveProfileData(name, about)
       .then((res) => {
@@ -124,7 +128,7 @@ function App() {
       })
   }
 
-  const handleUpdateAvatar = ({ avatar }) => {
+  const handleUpdateAvatar = ({avatar}) => {
     api
       .editAvatar(avatar)
       .then((res) => {
@@ -136,7 +140,7 @@ function App() {
       })
   }
 
-  const handleAddPlaceSubmit = ({ name, link }) => {
+  const handleAddPlaceSubmit = ({name, link}) => {
     api
       .addNewCard(name, link)
       .then((res) => {
@@ -155,7 +159,29 @@ function App() {
         {currentUser && (
           <div className='page'>
             <Header />
-            <Main
+            <Routes>
+              <Route path='/sign-up' element={<Register />} />
+              <Route path='/sign-in' element={<Login />} />
+              <Route
+                path='/mesto-react'
+                element={
+                  <ProtectedRoute
+                    element={
+                      <Main
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        onConfirm={handleConfirmClick}
+                        onCardClick={handleCardClick}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleCardDelete}
+                      />
+                    }
+                  />
+                }
+              />
+            </Routes>
+            {/* <Main
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
@@ -163,7 +189,7 @@ function App() {
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
-            />
+            /> */}
             <Footer />
 
             <EditProfileForm
