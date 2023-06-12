@@ -1,0 +1,16 @@
+.profile__image {
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.profile__image:hover {
+  background: url(../../../images/editAvatar.svg) center no-repeat;
+}
+
+@media screen and (max-width: 1040px) {
+  .profile__image {
+    margin-top: 45px;
+  }
+}

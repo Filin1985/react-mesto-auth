@@ -1,0 +1,10 @@
+.elements__delete {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: url(../../../images/bucket.svg) no-repeat center;
+  border: none;
+  width: 18px;
+  height: 19px;
+  cursor: pointer;
+}

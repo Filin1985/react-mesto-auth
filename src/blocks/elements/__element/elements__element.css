@@ -1,0 +1,5 @@
+.elements__element {
+  background-color: var(--white);
+  border-radius: 10px;
+  position: relative;
+}

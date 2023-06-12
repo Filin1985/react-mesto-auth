@@ -1,0 +1,19 @@
+.button_type_submit {
+  background-color: var(--black);
+  height: 50px;
+  color: var(--white);
+  margin-top: 24px;
+}
+
+.button_type_submit:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 560px) {
+  .button_type_submit {
+    font-size: 14px;
+    line-height: 17px;
+    height: 46px;
+    margin-top: 5px;
+  }
+}

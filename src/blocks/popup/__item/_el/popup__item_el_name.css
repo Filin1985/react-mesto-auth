@@ -1,0 +1,5 @@
+@media screen and (max-width: 560px) {
+  .popup__item_el_name {
+    padding-bottom: 8px;
+  }
+}

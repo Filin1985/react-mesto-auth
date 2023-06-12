@@ -1,0 +1,5 @@
+@media screen and (max-width: 560px) {
+  .popup__item_el_prof {
+    padding-bottom: 8px;
+  }
+}
