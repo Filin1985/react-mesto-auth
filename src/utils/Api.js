@@ -1,5 +1,5 @@
 class Api {
-  constructor({ url, headers }) {
+  constructor({url, headers}) {
     this._url = url
     this._headers = headers
   }
@@ -75,6 +75,36 @@ class Api {
       body: JSON.stringify({
         avatar,
       }),
+    }).then(this._checkResponse)
+  }
+
+  registerUser(email, password) {
+    return fetch('https://nomoreparties.co/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password}),
+    }).then(this._checkResponse)
+  }
+
+  loginUser(email, password) {
+    return fetch('https://nomoreparties.co/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password}),
+    }).then(this._checkResponse)
+  }
+
+  checkUser() {
+    return fetch('https://nomoreparties.co/users/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
     }).then(this._checkResponse)
   }
 }

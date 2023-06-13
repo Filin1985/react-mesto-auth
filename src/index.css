@@ -11,6 +11,7 @@
 @import url(./blocks/button/_type/button_type_add.css);
 @import url(./blocks/button/_type/button_type_close.css);
 @import url(./blocks/button/_type/button_type_submit.css);
+@import url(./blocks/button/_type/button_type_auth.css);
 @import url(./blocks/button/_disabled/button_type_submit_disabled.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__container/profile__container.css);
@@ -53,3 +54,11 @@
 @import url(./blocks/popup/__item/_el/popup__item_el_name.css);
 @import url(./blocks/popup/_opacity/popup_opacity_less.css);
 @import url(./blocks/loader/loader.css);
+@import url(./blocks/auth/auth.css);
+@import url(./blocks/auth/__field/auth__field.css);
+@import url(./blocks/auth/__form/auth__form.css);
+@import url(./blocks/auth/__input/auth__input.css);
+@import url(./blocks/auth/__set/auth__set.css);
+@import url(./blocks/auth/__title/auth__title.css);
+@import url(./blocks/auth/__login/auth__login.css);
+@import url(./blocks/auth/__link/auth__link.css);

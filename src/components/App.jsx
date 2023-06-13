@@ -159,11 +159,11 @@ function App() {
         {currentUser && (
           <div className='page'>
             <Header />
-            <Routes>
-              <Route path='/sign-up' element={<Register />} />
-              <Route path='/sign-in' element={<Login />} />
+            <Routes path='/mesto-react'>
+              <Route path='/signup' element={<Register />} />
+              <Route path='/signin' element={<Login />} />
               <Route
-                path='/mesto-react'
+                path='/'
                 element={
                   <ProtectedRoute
                     element={
