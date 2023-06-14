@@ -1,0 +1,7 @@
+.popup__item-error_visible {
+  opacity: 1;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 2px;
+  transition: 0.4s;
+}

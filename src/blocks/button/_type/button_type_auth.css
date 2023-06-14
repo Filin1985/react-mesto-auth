@@ -1,0 +1,15 @@
+.button_type_auth {
+  margin-top: 216px;
+  background-color: #fff;
+  color: black;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@media screen and (max-width: 420px) {
+  .button_type_auth {
+    margin-top: 150px;
+  }
+}

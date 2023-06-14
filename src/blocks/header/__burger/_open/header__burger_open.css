@@ -1,0 +1,8 @@
+@media screen and (max-width: 500px) {
+  .header__burger_open {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url('../../../../images/close.svg') no-repeat center;
+  }
+}

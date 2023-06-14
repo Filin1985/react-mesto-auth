@@ -1,0 +1,6 @@
+.elements__mask {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 23px 21px;
+}
