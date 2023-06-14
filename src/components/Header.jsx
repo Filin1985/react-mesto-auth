@@ -14,7 +14,7 @@ const Header = ({email, onLogout}) => {
   return (
     <header className={isBurgerMenu ? 'header header_open' : 'header'}>
       <div className='header__box'>
-        <Link to='/mesto-react'>
+        <Link to='/react-mesto-auth'>
           <img src={mestoLogo} alt='Логотип Mesto' className='header__logo' />
         </Link>
         {email && (
@@ -33,7 +33,7 @@ const Header = ({email, onLogout}) => {
 
       <Routes>
         <Route
-          path='/mesto-react'
+          path='/react-mesto-auth'
           element={
             <Menu
               email={email}
