@@ -1,0 +1,12 @@
+.header__burger {
+  display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .header__burger {
+    display: block;
+    width: 24px;
+    height: 30px;
+    background: url('../../../images/burger.svg') no-repeat center;
+  }
+}

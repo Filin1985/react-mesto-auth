@@ -5,7 +5,16 @@
 @import url(./blocks/page/page.css);
 @import url(./blocks/section/section.css);
 @import url(./blocks/header/header.css);
+@import url(./blocks/header/__box/header__box.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__link/header__link.css);
+@import url(./blocks/header/__burger/header__burger.css);
+@import url(./blocks/header/__content/header__content.css);
+@import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__logout/header__logout.css);
+@import url(./blocks/header/_open/header_open.css);
+@import url(./blocks/header/__burger/_open/header__burger_open.css);
+@import url(./blocks/header/__content/_open/header__content_open.css);
 @import url(./blocks/button/button.css);
 @import url(./blocks/button/_type/button_type_edit.css);
 @import url(./blocks/button/_type/button_type_add.css);
@@ -53,6 +62,9 @@
 @import url(./blocks/popup/__item/_el/popup__item_el_prof.css);
 @import url(./blocks/popup/__item/_el/popup__item_el_name.css);
 @import url(./blocks/popup/_opacity/popup_opacity_less.css);
+@import url(./blocks/popup/__box/popup__box.css);
+@import url(./blocks/popup/__icon/popup__icon.css);
+@import url(./blocks/popup/__paragraph/popup__paragraph.css);
 @import url(./blocks/loader/loader.css);
 @import url(./blocks/auth/auth.css);
 @import url(./blocks/auth/__field/auth__field.css);

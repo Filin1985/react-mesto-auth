@@ -1,16 +1,37 @@
 import React from 'react'
+import {useNavigate} from 'react-router-dom'
 import {useForm} from '../hooks/useForm'
+import {auth} from '../utils/Auth'
 
-const Login = () => {
+const Login = ({setTooltip, handleLogin}) => {
   const {values, handleChange} = useForm({
     email: '',
     password: '',
   })
+  const navigate = useNavigate()
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    auth
+      .loginUser(values.email, values.password)
+      .then((res) => {
+        localStorage.setItem('token', res.token)
+        handleLogin()
+        navigate('/mesto-react')
+      })
+      .catch((error) => {
+        console.log(error)
+        setTooltip({
+          text: 'Что-то пошло не так! Попробуйте еще раз.',
+          type: 'invalid',
+        })
+      })
+  }
 
   return (
     <div className='auth'>
       <h2 className='auth__title'>Вход</h2>
-      <form className='auth__form' action='submit'>
+      <form className='auth__form' action='submit' onSubmit={handleSubmit}>
         <fieldset className='auth__set'>
           <label className='auth__field'>
             <input

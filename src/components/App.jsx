@@ -7,14 +7,22 @@ import EditAvatarForm from './EditAvatarForm'
 import NewPlaceForm from './NewPlaceForm'
 import PopupWithForm from './PopupWithForm'
 import ImagePopup from './ImagePopup'
+import InfoTooltip from './InfoTooltip'
 import Loader from './Loader'
 import ProtectedRoute from './ProtectedRoute'
 import Login from './Login'
 import Register from './Register'
 import {api} from '../utils/Api'
+import {auth} from '../utils/Auth'
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
 import {CardContext} from '../contexts/CardContext'
-import {Route, Routes} from 'react-router-dom'
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom'
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
@@ -23,8 +31,16 @@ function App() {
   const [isConfirmForm, setIsConfirmForm] = useState(false)
   const [selectedCard, setSelectedCard] = useState(null)
   const [currentUser, setCurrentUser] = useState()
+  const [userEmail, setUserEmail] = useState('')
   const [cardId, setCardId] = useState('')
   const [cards, setCards] = useState([])
+  const [loggedIn, setLoggedIn] = useState(null)
+  const [tooltip, setTooltip] = useState({
+    text: '',
+    type: '',
+  })
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     api
@@ -45,6 +61,29 @@ function App() {
       })
   }, [])
 
+  const checkUser = () => {
+    auth
+      .checkUser()
+      .then((res) => {
+        if (!res.data) {
+          return
+        }
+        console.log(res.data)
+        setUserEmail(res.data.email)
+        setLoggedIn(true)
+        navigate(location.pathname)
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoggedIn(false)
+      })
+  }
+
+  useEffect(() => {
+    checkUser()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn])
+
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true)
   }
@@ -64,6 +103,10 @@ function App() {
   }
 
   const closeAllPopups = () => {
+    setTooltip({
+      text: '',
+      type: '',
+    })
     setIsEditAvatarPopupOpen(false)
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
@@ -152,79 +195,100 @@ function App() {
       })
   }
 
+  const handleLogin = () => {
+    setLoggedIn(true)
+  }
+
+  const handleLogout = () => {
+    setLoggedIn(false)
+    setUserEmail('')
+  }
+
+  console.log(loggedIn)
+  if (loggedIn === null) {
+    return <Loader />
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CardContext.Provider value={cards}>
-        {!currentUser && <Loader />}
-        {currentUser && (
-          <div className='page'>
-            <Header />
-            <Routes path='/mesto-react'>
-              <Route path='/signup' element={<Register />} />
-              <Route path='/signin' element={<Login />} />
-              <Route
-                path='/'
-                element={
-                  <ProtectedRoute
-                    element={
-                      <Main
-                        onEditProfile={handleEditProfileClick}
-                        onAddPlace={handleAddPlaceClick}
-                        onEditAvatar={handleEditAvatarClick}
-                        onConfirm={handleConfirmClick}
-                        onCardClick={handleCardClick}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
-                      />
-                    }
-                  />
-                }
-              />
-            </Routes>
-            {/* <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onConfirm={handleConfirmClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-            /> */}
-            <Footer />
-
-            <EditProfileForm
-              onClose={closeAllPopups}
-              isOpen={isEditProfilePopupOpen}
-              onUpdateUser={handleUpdateUser}
+        <div className='page'>
+          <Header email={userEmail} onLogout={handleLogout} />
+          <Routes>
+            <Route
+              path='/'
+              element={
+                loggedIn ? (
+                  <Navigate to='/mesto-react' replace />
+                ) : (
+                  <Navigate to='/sign-in' replace />
+                )
+              }
             />
-
-            <EditAvatarForm
-              onClose={closeAllPopups}
-              isOpen={isEditAvatarPopupOpen}
-              onUpdateAvatar={handleUpdateAvatar}
+            <Route
+              path='/sign-up'
+              element={<Register setTooltip={setTooltip} />}
             />
-
-            <NewPlaceForm
-              onClose={closeAllPopups}
-              isOpen={isAddPlacePopupOpen}
-              onAddNewCard={handleAddPlaceSubmit}
+            <Route
+              path='/sign-in'
+              element={
+                <Login setTooltip={setTooltip} handleLogin={handleLogin} />
+              }
             />
+            <Route
+              path='/mesto-react'
+              element={
+                <ProtectedRoute
+                  loggedIn={loggedIn}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onConfirm={handleConfirmClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  element={Main}
+                />
+              }
+            />
+          </Routes>
+          <Footer />
 
-            {isConfirmForm && (
-              <PopupWithForm
-                name='confirm'
-                title='Вы уверены?'
-                onClose={closeAllPopups}
-                buttonText='Да'
-                onSubmit={handleDeleteApprove}
-              />
-            )}
+          <EditProfileForm
+            onClose={closeAllPopups}
+            isOpen={isEditProfilePopupOpen}
+            onUpdateUser={handleUpdateUser}
+          />
 
-            {selectedCard && (
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-            )}
-          </div>
-        )}
+          <EditAvatarForm
+            onClose={closeAllPopups}
+            isOpen={isEditAvatarPopupOpen}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+
+          <NewPlaceForm
+            onClose={closeAllPopups}
+            isOpen={isAddPlacePopupOpen}
+            onAddNewCard={handleAddPlaceSubmit}
+          />
+
+          {isConfirmForm && (
+            <PopupWithForm
+              name='confirm'
+              title='Вы уверены?'
+              onClose={closeAllPopups}
+              buttonText='Да'
+              onSubmit={handleDeleteApprove}
+            />
+          )}
+
+          {selectedCard && (
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+          )}
+          {tooltip.type && (
+            <InfoTooltip tooltip={tooltip} onClose={closeAllPopups} />
+          )}
+        </div>
       </CardContext.Provider>
     </CurrentUserContext.Provider>
   )

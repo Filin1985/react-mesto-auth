@@ -1,44 +1,18 @@
-import React, {useEffect} from 'react'
+import React from 'react'
+import Popup from './Popup'
+import successImage from '../images/success.png'
+import errorImage from '../images/error.png'
 
-const InfoTooltip = ({type, onClose}) => {
-  useEffect(() => {
-    const handleEscClose = (evt) => {
-      if (evt.key === 'Escape') {
-        onClose()
-      }
-    }
-    document.addEventListener('keydown', handleEscClose)
-    return () => {
-      document.removeEventListener('keydown', handleEscClose)
-    }
-  }, [onClose])
+const InfoTooltip = ({tooltip, onClose}) => {
+  const imageType = tooltip.type === 'success' ? successImage : errorImage
 
-  const handleOverlayClose = (event) => {
-    if (event.target === event.currentTarget) {
-      onClose()
-    }
-  }
   return (
-    <section
-      className={
-        type
-          ? 'popup popup_opacity_less popup_opened'
-          : 'popup popup_opacity_less'
-      }
-      id='popup-tooltip'
-      onMouseDown={handleOverlayClose}
-    >
-      <figure className='popup__tooltip'>
-        <button
-          aria-label='Close'
-          className='button button_type_close'
-          type='button'
-          onClick={onClose}
-        ></button>
-        <img className='popup__icon' />
-        <figcaption className='popup__paragraph'>{type}</figcaption>
-      </figure>
-    </section>
+    <Popup onClose={onClose}>
+      <div className='popup__box'>
+        <img className='popup__icon' src={imageType} alt='Иконка' />
+        <figcaption className='popup__paragraph'>{tooltip.text}</figcaption>
+      </div>
+    </Popup>
   )
 }
 
