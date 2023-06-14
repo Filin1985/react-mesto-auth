@@ -27,5 +27,3 @@ npm install
 ```
 npm start
 ```
-
-[Ссылка на проект](http://Filin1985.github.io/mesto-react)
