@@ -1,38 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, {useEffect} from 'react'
 import PopupWithForm from './PopupWithForm'
+import {useForm} from '../hooks/useForm'
 
-const NewPlaceForm = ({ onClose, isOpen, onAddNewCard }) => {
-  const [state, setState] = useState({
+const NewPlaceForm = ({onClose, isOpen, onAddNewCard}) => {
+  const {values, handleChange, setValues} = useForm({
     name: '',
-    link: '',
+    prof: '',
   })
 
   useEffect(() => {
-    setState({
+    setValues({
       name: '',
       link: '',
     })
-  }, [isOpen])
-
-  const handleChange = (e) => {
-    const target = e.target
-    const value = target.value
-    const name = target.name
-    setState({
-      ...state,
-      [name]: value,
-    })
-  }
+  }, [isOpen, setValues])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     onAddNewCard({
-      name: state.name,
-      link: state.link,
+      name: values.name,
+      link: values.link,
     })
   }
 
-  const isButtonActive = state.name.length === 0 && state.link.length === 0
+  const isButtonActive = values.name?.length === 0 && values.link?.length === 0
 
   return (
     <>
@@ -54,7 +45,7 @@ const NewPlaceForm = ({ onClose, isOpen, onAddNewCard }) => {
               placeholder='Название'
               minLength='2'
               maxLength='30'
-              value={state.name}
+              value={values.name}
               onChange={handleChange}
               required
             />
@@ -67,7 +58,7 @@ const NewPlaceForm = ({ onClose, isOpen, onAddNewCard }) => {
               type='url'
               name='link'
               placeholder='Ссылка на картинку'
-              value={state.link}
+              value={values.link}
               onChange={handleChange}
               required
             />

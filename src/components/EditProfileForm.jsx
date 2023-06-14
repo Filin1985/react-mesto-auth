@@ -1,36 +1,28 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, {useContext, useEffect} from 'react'
 import PopupWithForm from './PopupWithForm'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import {CurrentUserContext} from '../contexts/CurrentUserContext'
+import { useForm } from '../hooks/useForm'
 
-const EditProfileForm = ({ onClose, isOpen, onUpdateUser }) => {
+const EditProfileForm = ({onClose, isOpen, onUpdateUser}) => {
   const currentUser = useContext(CurrentUserContext)
-  const [state, setState] = useState({
+  const {values, handleChange, setValues} = useForm({
     name: '',
     prof: '',
   })
 
   useEffect(() => {
-    setState({
-      name: currentUser.name,
-      prof: currentUser.about,
+    setValues({
+      name: currentUser?.name || '',
+      prof: currentUser?.about || '',
     })
-  }, [currentUser, isOpen])
+  }, [currentUser, isOpen, setValues])
 
-  const handleChange = (e) => {
-    const target = e.target
-    const value = target.value
-    const name = target.name
-    setState({
-      ...state,
-      [name]: value,
-    })
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     onUpdateUser({
-      name: state.name,
-      about: state.prof,
+      name: values.name,
+      about: values.prof,
     })
   }
 
@@ -53,7 +45,7 @@ const EditProfileForm = ({ onClose, isOpen, onUpdateUser }) => {
               maxLength='40'
               type='text'
               placeholder='Имя'
-              value={state.name}
+              value={values.name}
               onChange={handleChange}
               required
             />
@@ -68,7 +60,7 @@ const EditProfileForm = ({ onClose, isOpen, onUpdateUser }) => {
               minLength='2'
               maxLength='200'
               placeholder='Предназначение'
-              value={state.prof}
+              value={values.prof}
               onChange={handleChange}
               required
             />
