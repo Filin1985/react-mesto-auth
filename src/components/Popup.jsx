@@ -1,38 +1,27 @@
-import React, {useEffect} from 'react'
+import React from 'react'
+import usePopupClose from '../hooks/usePopupClose'
 
-const Popup = ({onClose, children}) => {
-  useEffect(() => {
-    const handleEscClose = (evt) => {
-      if (evt.key === 'Escape') {
-        onClose()
-      }
-    }
-    document.addEventListener('keydown', handleEscClose)
-    return () => {
-      document.removeEventListener('keydown', handleEscClose)
-    }
-  }, [onClose])
+const Popup = ({isOpen, onClose, name, children}) => {
+  usePopupClose(isOpen, onClose)
 
-  const handleOverlayClose = (event) => {
-    if (event.target === event.currentTarget) {
-      onClose()
-    }
-  }
+  if (!isOpen) return
+
+  const containerClass = name === 'image' ? 'popup__image' : 'popup__container'
+
   return (
     <section
       className='popup popup_opacity_less popup_opened'
-      id='popup-image'
-      onMouseDown={handleOverlayClose}
+      id={`popup-${name}`}
     >
-      <figure className='popup__image'>
+      <div className={containerClass}>
         <button
           aria-label='Close'
           className='button button_type_close'
           type='button'
           onClick={onClose}
-        ></button>
+        />
         {children}
-      </figure>
+      </div>
     </section>
   )
 }

@@ -13,69 +13,73 @@ class Api {
     )
   }
 
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse)
+  }
+
   getUserProfile() {
-    return fetch(`${this._url}/users/me`, {
+    return this._request(`${this._url}/users/me`, {
       headers: this._headers,
-    }).then(this._checkResponse)
+    })
   }
 
   getAllCards() {
-    return fetch(`${this._url}/cards`, {
+    return this._request(`${this._url}/cards`, {
       headers: this._headers,
-    }).then(this._checkResponse)
+    })
   }
 
   saveProfileData(newName, newProfession) {
-    return fetch(`${this._url}/users/me`, {
+    return this._request(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: newName,
         about: newProfession,
       }),
-    }).then(this._checkResponse)
+    })
   }
 
   addNewCard(name, link) {
-    return fetch(`${this._url}/cards`, {
+    return this._request(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: name,
         link: link,
       }),
-    }).then(this._checkResponse)
+    })
   }
 
   deleteCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}`, {
+    return this._request(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
-    }).then(this._checkResponse)
+    })
   }
 
   addLikeToCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
+    return this._request(`${this._url}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers,
-    }).then(this._checkResponse)
+    })
   }
 
   removeLikeFromCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
+    return this._request(`${this._url}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers,
-    }).then(this._checkResponse)
+    })
   }
 
   editAvatar(avatar) {
-    return fetch(`${this._url}/users/me/avatar`, {
+    return this._request(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar,
       }),
-    }).then(this._checkResponse)
+    })
   }
 }
 

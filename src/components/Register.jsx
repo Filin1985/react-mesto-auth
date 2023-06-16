@@ -1,38 +1,16 @@
 import React from 'react'
 import {useForm} from '../hooks/useForm'
-import {Link, useNavigate} from 'react-router-dom'
-import {auth} from '../utils/Auth'
+import {Link} from 'react-router-dom'
 
-const Register = ({setTooltip}) => {
+const Register = ({handleRegister}) => {
   const {values, handleChange} = useForm({
     email: '',
     password: '',
   })
-  const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (values.email && values.password) {
-      const {email, password} = values
-      auth
-        .registerUser(email, password)
-        .then((res) => {
-          if (res.data) {
-            setTooltip({
-              text: 'Вы успешно зарегистрированы!',
-              type: 'valid',
-            })
-            navigate('/sign-in', {replace: true})
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-          setTooltip({
-            text: 'Что-то пошло не так! Попробуйте еще раз.',
-            type: 'invalid',
-          })
-        })
-    }
+    handleRegister(values.email, values.password)
   }
 
   return (
